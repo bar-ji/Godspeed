@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Management;
 using UnityEngine;
 
-namespace Wildflare.Camera
+namespace Camera
 {
     public class CameraController : MonoBehaviour
     {
@@ -12,6 +13,7 @@ namespace Wildflare.Camera
         [SerializeField] private Transform orientation;
         [SerializeField] private Vector2 sensitivity;
         private float xRot;
+        private float yRot;
         private bool isLocked;
     
         float mouseX;
@@ -19,15 +21,13 @@ namespace Wildflare.Camera
 
         private void Start()
         {
-            SetIsLocked(false);
+            GameState.instance.OnEscapePressed += SetIsLocked;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                SetIsLocked(!isLocked);
-
-            mouseX = Input.GetAxisRaw("Mouse X") * sensitivity.x * Time.deltaTime;
-            mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity.y * Time.deltaTime;
+            mouseX = Input.GetAxisRaw("Mouse X") * sensitivity.x;
+            mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity.y;
         }
 
         private void LateUpdate()
@@ -36,19 +36,21 @@ namespace Wildflare.Camera
         
             if (isLocked) return;
             
-            xRot -= mouseY * Time.deltaTime;
+            xRot -= mouseY * Time.deltaTime; 
             xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
-            
+
+            yRot += mouseX * Time.deltaTime;
+
             camera.localRotation = Quaternion.Euler(xRot, 0, 0);
-            transform.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(0, yRot, 0);
             //This is used as the direction for the player.
-            orientation.Rotate(Vector3.up * mouseX);
+            orientation.localRotation = Quaternion.Euler(0, yRot, 0);
         }
 
-        public void SetIsLocked(bool value)
+        public void SetIsLocked()
         {
-            isLocked = value;
-            Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked;
+            isLocked = !isLocked;
+            Cursor.lockState = isLocked ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 }
