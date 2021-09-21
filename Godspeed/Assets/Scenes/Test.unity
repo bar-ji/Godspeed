@@ -149,7 +149,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79547087}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -355,7 +355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 820, y: 432}
+  m_AnchoredPosition: {x: 719.2, y: 432}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &605883065
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'VEL: '
+  m_text: 'Speed:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1daaef0910a432f4bbbd43c20dc08cdb, type: 2}
   m_sharedMaterial: {fileID: -6922656344978470819, guid: 1daaef0910a432f4bbbd43c20dc08cdb, type: 2}
@@ -747,7 +747,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945364757}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -926,7 +926,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057991579}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -1022,7 +1022,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074420204}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -1057,13 +1057,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b0ca2734ff8834bb07cabc8c81b23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 60
+  force: 60
   responsiveness: 3
   drag: 15
-  maxSpeed: 10
+  absMaxSpeed: 40
+  currentMaxSpeed: 20
+  maxSpeedAcceleration: 0.1
   groundDistance: 1.02
-  jumpForce: 500
-  gravityScale: 2
+  jumpForce: 750
+  gravityScale: 3
   groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1112,7 +1114,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295353269}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -1208,7 +1210,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581817980}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -1463,7 +1465,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835608093}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
