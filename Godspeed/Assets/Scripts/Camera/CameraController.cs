@@ -35,11 +35,10 @@ namespace Camera
             transform.position = target.position;
         
             if (isLocked) return;
-            
-            xRot -= mouseY * Time.deltaTime; 
-            xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
-            yRot += mouseX * Time.deltaTime;
+            xRot -= mouseY * 0.02f; 
+            xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
+            yRot += mouseX * 0.02f;
 
             camera.localRotation = Quaternion.Euler(xRot, 0, 0);
             transform.localRotation = Quaternion.Euler(0, yRot, 0);

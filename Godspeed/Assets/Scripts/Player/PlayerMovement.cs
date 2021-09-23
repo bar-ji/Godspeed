@@ -1,12 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Management;
 using TMPro;
 using UnityEngine;
 
 namespace Player
 {
+    public enum MovementState
+    {
+        Walking, Airborn
+    }
+    
     public class PlayerMovement : MonoBehaviour
     {
         [Header("Walking")]
@@ -20,7 +22,7 @@ namespace Player
                          private float accelerationOnAwake;
                          private float currentMaxSpeedT;
 
-                         [Header("Jumping")]
+        [Header("Jumping")]
         [SerializeField] private float groundDistance;
         [SerializeField] private float jumpForce;
         [SerializeField] private float gravityScale;
@@ -31,6 +33,8 @@ namespace Player
         [SerializeField] private Transform orientation;
         [SerializeField] private TMP_Text velocityText;
                          private Rigidbody rb;
+
+                         private MovementState state;
                          
         private bool isMoving => Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
         private bool isGrounded => Physics.Raycast(transform.position, Vector3.down, groundDistance, groundMask);
@@ -49,9 +53,11 @@ namespace Player
         void Update()
         {
             if (rb.velocity.magnitude > currentMaxSpeed)
-                velocityText.text = "Speed: " + currentMaxSpeed;
+                velocityText.text = "Speed: " + currentMaxSpeed.ToString("F2");
             else
-                velocityText.text = "Speed: " + rb.velocity.magnitude.ToString("F1");
+                velocityText.text = "Speed: " + new Vector2(rb.velocity.x,rb.velocity.z).magnitude.ToString("F2");
+
+            state = isGrounded ? MovementState.Walking : MovementState.Airborn;
         }   
         private void FixedUpdate()
         {
@@ -62,7 +68,6 @@ namespace Player
             
             if (Input.GetKey(KeyCode.Space) && isGrounded)
                 Jump();
-            
             Movement();
         }
     
