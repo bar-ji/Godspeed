@@ -14,15 +14,16 @@ namespace Camera
         [SerializeField] private Vector2 sensitivity;
         private float xRot;
         private float yRot;
+
+        private float mouseX;
+        private float mouseY;
+
         private bool isLocked;
-    
-        float mouseX;
-        float mouseY;
 
         private void Start()
         {
-            GameState.instance.OnEscapePressed += SetIsLocked;
-            Cursor.lockState = CursorLockMode.Locked;
+            PauseMenu.instance.OnPause += SetIsLocked;
+            PauseMenu.instance.OnUnpause += SetIsLocked;
         }
         private void Update()
         {
@@ -46,10 +47,9 @@ namespace Camera
             orientation.localRotation = Quaternion.Euler(0, yRot, 0);
         }
 
-        public void SetIsLocked()
+        private void SetIsLocked()
         {
             isLocked = !isLocked;
-            Cursor.lockState = isLocked ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 }

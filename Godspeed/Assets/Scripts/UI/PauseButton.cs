@@ -22,7 +22,7 @@ public class PauseButton : MonoBehaviour, IButton
 
     public void OnCursorEnter()
     {
-        transform.DOPunchScale(new Vector3(0.02f, 0.02f, 0.02f), scaleTime, 10, 0.1f);
+        transform.DOPunchScale(new Vector3(0.01f, 0.01f, 0.01f), scaleTime, 10, 0.1f);
         if(!isSelected)
             ScaleUp();
     }
@@ -35,7 +35,7 @@ public class PauseButton : MonoBehaviour, IButton
 
     public void OnClick()
     {
-        transform.DOPunchScale(new Vector3(0.05f, 0.05f, 0.05f), scaleTime, 10, 0.1f);
+        transform.DOPunchScale(new Vector3(0.015f, 0.015f, 0.015f), scaleTime, 10, 0.1f);
         PauseMenu.instance.OnChangeState(state);
     }
 

@@ -6,7 +6,6 @@ namespace Management
     public class GameState : MonoBehaviour
     {
         public bool isPaused { get; private set;}
-        public Action OnEscapePressed;
 
         public static GameState instance;
 
@@ -18,12 +17,20 @@ namespace Management
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if(Input.GetKeyDown(KeyCode.Escape))
             {
-                OnEscapePressed.Invoke();
-                isPaused = !isPaused;
+                PauseMenu pauseMenu = PauseMenu.instance;
+
+                if (pauseMenu.GetIsPaused())
+                {
+                    pauseMenu.OnUnpause.Invoke();
+                }
+                else
+                {
+                    pauseMenu.OnPause.Invoke();
+                }
+                   
             }
-                
         }
     }
 }
