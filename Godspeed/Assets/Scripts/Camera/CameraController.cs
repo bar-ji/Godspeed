@@ -22,8 +22,9 @@ namespace Camera
 
         private void Start()
         {
-            PauseMenu.instance.OnPause += SetIsLocked;
-            PauseMenu.instance.OnUnpause += SetIsLocked;
+            EventHandlerSystem eventHandler = EventHandlerSystem.instance;
+            eventHandler.OnPause += SetIsLocked;
+            eventHandler.OnUnpause += SetIsLocked;
         }
         private void Update()
         {

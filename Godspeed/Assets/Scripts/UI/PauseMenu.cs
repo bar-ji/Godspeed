@@ -5,6 +5,7 @@ using DG.Tweening;
 using Management;
 using Scriptable_Objs;
 using UnityEngine;
+using EventHandler = System.EventHandler;
 
 
 public enum PauseState
@@ -22,27 +23,40 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private MovableImageData sidebarData;
     [SerializeField] private Transform sidebar;
 
-    [SerializeField] private GameObject video;
-    [SerializeField] private new GameObject audio;
-    [SerializeField] private GameObject debug;
-
+    [SerializeField] private GameObject[] pauseContents;
     private PauseState currentState;
+
+    private EventHandlerSystem eventHandler;
 
     //Menu State
     private bool isPaused;
-    public Action OnPause;
-    public Action OnUnpause;
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(this);
+    }
 
-        OnPause += OnPaused;
-        OnUnpause += OnUnpaused;
+    void Start()
+    {
+        eventHandler = EventHandlerSystem.instance;
+        
+        eventHandler.OnPause += OnPaused;
+        eventHandler.OnUnpause += OnUnpaused;
 
         //Initialise the state to be unpaused
-        OnUnpause();
+        eventHandler.Unpause();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+                eventHandler.Unpause();
+            else
+                eventHandler.Pause();
+        }
     }
 
     public void OnChangeState(PauseState state)
@@ -50,7 +64,6 @@ public class PauseMenu : MonoBehaviour
         SetContentState(currentState, false);
         currentState = state;
         SetContentState(currentState, true);
-        
         SetButtonState(state);
     }
 
@@ -59,9 +72,7 @@ public class PauseMenu : MonoBehaviour
         for (int i = 0; i < buttons.Count; i++)
         {
             if (i == (int) state)
-            {
                 buttons[i].OnSelected();
-            }
             else
                 buttons[i].OnDeselected();
         }
@@ -69,25 +80,17 @@ public class PauseMenu : MonoBehaviour
 
     void SetContentState(PauseState state, bool activeState)
     {
-        switch (state)
+        for (int i = 0; i < sizeof(PauseState) - 1; i++)
         {
-            case PauseState.Video:
-                video.SetActive(activeState);
-                break;
-            case PauseState.Audio:
-                audio.SetActive(activeState);
-                break;
-            case PauseState.Debug:
-                debug.SetActive(activeState);
-                break;
+            if (i == (int)state)
+                pauseContents[i].SetActive(activeState);
         }
     }
 
     void DisableContent()
     {
-        video.SetActive(false);
-        audio.SetActive(false);
-        debug.SetActive(false);
+        for (int i = 0; i < sizeof(PauseState) - 1; i++)
+            pauseContents[i].SetActive(false);
     }
 
     void OnPaused()
@@ -107,7 +110,4 @@ public class PauseMenu : MonoBehaviour
         DisableContent();
         SetButtonState(PauseState.None);
     }
-
-    public void SetIsPaused(bool value) => isPaused = value;
-    public bool GetIsPaused() => isPaused;
 }
