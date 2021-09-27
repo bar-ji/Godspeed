@@ -7,28 +7,53 @@ namespace Management
 {
     public class SettingsManager : MonoBehaviour
     {
-        public static void StoreIntValue(string settingName, int value) => PlayerPrefs.SetInt(settingName, value);
-        public static void GetIntValue(string settingName) => PlayerPrefs.GetInt(settingName);
-    
-        public static void StoreFloatValue(string settingName, float value) => PlayerPrefs.SetFloat(settingName, value);
-        public static void GetFloatValue(string settingName) => PlayerPrefs.GetFloat(settingName);
+        public static SettingsManager manager;
 
-        public static void StoreStringValue(string settingName, string value) => PlayerPrefs.SetString(settingName, value);
-        public static void GetStringValue(string settingName) => PlayerPrefs.GetString(settingName);
+        public static Setting[] settings = new Setting[sizeof(SettingType)];
 
-        /*
-        public static void StoreValue<T>(string settingName, T settingValue)
+        private void Awake()
         {
-            System.Type type = typeof(T);
-            
-            if (type == typeof(int))
-                PlayerPrefs.SetInt(settingName, Convert.ToInt32(settingValue));
-            else if (type == typeof(float))
-                PlayerPrefs.SetFloat(settingName, (float)Convert.ToDouble(settingValue));
-            else if (type == typeof(string))
-                PlayerPrefs.SetString(settingName, settingValue.ToString());
+            if(manager) Destroy(this);
+            manager = this;
         }
-        */
+        public static void ApplyAllSettings()
+        {
+            foreach (Setting setting in settings)
+            {
+                Saver.SaveValue(setting);
+            }
+        }
+        public static void ApplySetting(Setting setting)
+        {
+            Saver.SaveValue(setting);
+        }
+        
+        public static void DeleteAllSettings()
+        {
+            foreach (Setting setting in settings)
+            {
+                setting.value = 0;
+                Saver.SaveValue(setting);
+            }
+        }
+        
+        public static float GetSetting(Setting setting) => Saver.GetValue(setting);
     }
+
+    public class Setting
+    {
+        public SettingType type { get; set; }
+        public float value { get; set; }
+    }
+    
+    //Update this to add new setting. Add CreateSetting Script to any object.
+    public enum SettingType
+    {
+        resolution, IsFullscreen
+    }
+
+    //Resolution: 0 - 1280x720, 1 - 1920x1080, 2 - 2560x1440, 3 - 4096x2160
+    //IsFullscreen: 0 - false, 1 - true
+
 }
 

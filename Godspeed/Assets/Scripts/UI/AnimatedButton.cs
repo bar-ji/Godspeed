@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UI
-{ public class AnimatedButton : MonoBehaviour, IButton
+{ 
+    [RequireComponent(typeof(EventTrigger))]
+    public class AnimatedButton : MonoBehaviour, IButton
     {
                          private Vector2 startScale;
                          private Vector2 endScale;
