@@ -1200,6 +1200,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1610433797}
+          m_TargetAssemblyTypeName: ApplySettings, Assembly-CSharp
+          m_MethodName: ApplyAllSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &212386288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3879,9 +3891,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 742820507}
-          m_TargetAssemblyTypeName: UI.AnimatedButton, Assembly-CSharp
-          m_MethodName: OnClick
+        - m_Target: {fileID: 2125995664}
+          m_TargetAssemblyTypeName: Scroller, Assembly-CSharp
+          m_MethodName: Increment
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4243,7 +4255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &924526504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4278,7 +4290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  value: 0
 --- !u!1 &945364757
 GameObject:
   m_ObjectHideFlags: 0
@@ -6020,9 +6031,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1319264468}
-          m_TargetAssemblyTypeName: UI.AnimatedButton, Assembly-CSharp
-          m_MethodName: OnClick
+        - m_Target: {fileID: 2125995664}
+          m_TargetAssemblyTypeName: Scroller, Assembly-CSharp
+          m_MethodName: Decrement
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6802,6 +6813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1610433796}
+  - component: {fileID: 1610433797}
   m_Layer: 5
   m_Name: Apply
   m_TagString: Untagged
@@ -6830,6 +6842,18 @@ RectTransform:
   m_AnchoredPosition: {x: 543, y: -410}
   m_SizeDelta: {x: 163.33, y: 31.4502}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1610433797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610433795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85b14e4fa59aec4ea0cb26ead6797d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1654723610
 GameObject:
   m_ObjectHideFlags: 0
@@ -8195,6 +8219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125995662}
   - component: {fileID: 2125995663}
+  - component: {fileID: 2125995664}
   m_Layer: 5
   m_Name: Resolution
   m_TagString: Untagged
@@ -8238,4 +8263,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  value: 2
+--- !u!114 &2125995664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125995661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c6c493ba201454c86095512b10d50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxIndex: 5

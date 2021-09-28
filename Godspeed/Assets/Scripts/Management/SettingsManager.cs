@@ -20,7 +20,8 @@ namespace Management
         {
             foreach (Setting setting in settings)
             {
-                Saver.SaveValue(setting);
+                if(setting != null)
+                    Saver.SaveValue(setting);
             }
         }
         public static void ApplySetting(Setting setting)
@@ -28,13 +29,18 @@ namespace Management
             Saver.SaveValue(setting);
         }
         
-        public static void DeleteAllSettings()
+        public static void ResetAllSettings()
         {
             foreach (Setting setting in settings)
             {
                 setting.value = 0;
                 Saver.SaveValue(setting);
             }
+        }
+        
+        public static void DeleteAllSettings()
+        {
+            PlayerPrefs.DeleteAll();
         }
         
         public static float GetSetting(Setting setting) => Saver.GetValue(setting);
