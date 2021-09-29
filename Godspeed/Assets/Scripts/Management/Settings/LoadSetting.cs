@@ -12,20 +12,21 @@ namespace Management
         
         private void Awake()
         {
+            //This can never throw an error as this script requires a UI element
             if (TryGetComponent(out ui))
-            {
                 ui.OnValueChanged += OverrideSetting;
-                print("Found UI Element...");
-            }
+            else
+                print("Something has gone horribly, horribly wrong if you are seeing this");
         }
 
         private void OnEnable()
         {
-            var val = SettingsManager.GetSetting(new Setting {type = type, value = 0});
+            Setting s = new Setting {type = type, value = 0};
+            var val = SettingsManager.GetSetting(s.type.ToString());
             //If we already have a saved version of this setting then use the value saved.
             setting = val != 0 ? new Setting {type = type, value = val} : new Setting {type = type, value = 0};
             SettingsManager.settings[(int)setting.type] = setting;
-            SettingsManager.ApplySetting(setting);
+            SettingsManager.SaveSetting(setting);
             ui.currentIndex = (uint)setting.value;
             print("Initial Value: " + setting.value);
 
@@ -36,8 +37,6 @@ namespace Management
         {
             setting = new Setting {type = type, value = ui.currentIndex};
             SettingsManager.settings[(int)setting.type] = setting;
-            
-            print(setting.type + " " + setting.value);
         }
 
         public Setting GetSetting()

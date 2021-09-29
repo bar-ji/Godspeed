@@ -8,6 +8,6 @@ public class ApplySettings : MonoBehaviour
 {
     public void ApplyAllSettings()
     {
-        SettingsManager.ApplyAllSettings();
+        SettingsManager.SaveAllSettings();
     }
 }
