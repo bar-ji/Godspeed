@@ -1,18 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerGraphics : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject UI;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        Instantiate(UI, Vector3.zero, quaternion.identity);
     }
 }
