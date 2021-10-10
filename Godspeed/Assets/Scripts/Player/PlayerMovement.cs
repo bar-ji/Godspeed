@@ -38,6 +38,8 @@ namespace Player
                          
         private bool isMoving => Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
         private bool isGrounded => Physics.Raycast(transform.position, Vector3.down, groundDistance, groundMask);
+        
+        public Vector3 previousPosition { get; private set; }
     
         void Awake()
         {
@@ -58,6 +60,8 @@ namespace Player
                 velocityText.text = "Speed: " + new Vector2(rb.velocity.x,rb.velocity.z).magnitude.ToString("F2");
 
             state = isGrounded ? MovementState.Walking : MovementState.Airborn;
+            
+            previousPosition = transform.position;
         }   
         private void FixedUpdate()
         {

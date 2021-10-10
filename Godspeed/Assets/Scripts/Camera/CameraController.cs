@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Management;
 using UnityEngine;
 
-namespace Camera
+namespace Cam
 {
     public class CameraController : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace Camera
         [SerializeField] private Transform orientation;
         [SerializeField] private Vector2 sensitivity;
         private float xRot;
-        private float yRot;
+        public float yRot { get; set; }
 
         private float mouseX;
         private float mouseY;
@@ -30,6 +30,7 @@ namespace Camera
         {
             mouseX = Input.GetAxisRaw("Mouse X") * sensitivity.x;
             mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity.y;
+            
         }
 
         private void LateUpdate()
@@ -46,11 +47,17 @@ namespace Camera
             transform.localRotation = Quaternion.Euler(0, yRot, 0);
             //This is used as the direction for the player.
             orientation.localRotation = Quaternion.Euler(0, yRot, 0);
+            
         }
 
         private void SetIsLocked()
         {
             isLocked = !isLocked;
+        }
+        
+        public void OffsetRotation(float offset) {
+            yRot += offset;
+            transform.rotation = Quaternion.Euler(0, yRot, 0);
         }
     }
 }
