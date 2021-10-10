@@ -11,16 +11,28 @@ public class Teleporter : MonoBehaviour
 
     [SerializeField] private LayerMask playerLayer;
 
+    private bool overlapping;
+
     void Update() {
         var t = transform;
         Vector3 portalToPlayer = player.position - t.position;
         float dotProduct = Vector3.Dot(t.forward, portalToPlayer);
 
-        if (!Physics.CheckSphere(transform.position, 1f, playerLayer)) return;
+        if (!overlapping) return;
         
         if(dotProduct < 0f)
         {
             player.position = destination.position + portalToPlayer;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        overlapping = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        overlapping = false;
     }
 }
