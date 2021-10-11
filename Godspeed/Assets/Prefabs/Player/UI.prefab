@@ -2683,6 +2683,7 @@ GameObject:
   - component: {fileID: 7726601524352728746}
   - component: {fileID: 7726601524352728747}
   - component: {fileID: 7726601524352728748}
+  - component: {fileID: 7915266319029453563}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -2771,7 +2772,20 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
+--- !u!114 &7915266319029453563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7726601524352728749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11437d203d233dc4dac9d6a092fd541b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityTxt: {fileID: 7726601524631775662}
 --- !u!1 &7726601524388318904
 GameObject:
   m_ObjectHideFlags: 0

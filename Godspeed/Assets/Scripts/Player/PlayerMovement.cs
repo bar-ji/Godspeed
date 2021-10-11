@@ -16,7 +16,7 @@ namespace Player
         [SerializeField] private float responsiveness;
         [SerializeField] private float drag;
         [SerializeField] private float absMaxSpeed;
-        [SerializeField] private float currentMaxSpeed;
+                         public float currentMaxSpeed { get; private set; }
         [SerializeField] private float maxSpeedAcceleration;
                          private float maxSpeedOnAwake;
                          private float accelerationOnAwake;
@@ -31,7 +31,6 @@ namespace Player
 
         [Header("References")]
         [SerializeField] private Transform orientation;
-        [SerializeField] private TMP_Text velocityText;
                          private Rigidbody rb;
 
                          private MovementState state;
@@ -43,6 +42,7 @@ namespace Player
     
         void Awake()
         {
+            currentMaxSpeed = 20;
             accelerationOnAwake = force;
             maxSpeedOnAwake = currentMaxSpeed;
         }
@@ -54,11 +54,6 @@ namespace Player
     
         void Update()
         {
-            if (rb.velocity.magnitude > currentMaxSpeed)
-                velocityText.text = "Speed: " + currentMaxSpeed.ToString("F2");
-            else
-                velocityText.text = "Speed: " + new Vector2(rb.velocity.x,rb.velocity.z).magnitude.ToString("F2");
-
             state = isGrounded ? MovementState.Walking : MovementState.Airborn;
             
             previousPosition = transform.position;
