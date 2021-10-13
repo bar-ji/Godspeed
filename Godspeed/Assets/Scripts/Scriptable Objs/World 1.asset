@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69336cf36dc2c94fb2a999551ed5881, type: 3}
+  m_Name: World 1
+  m_EditorClassIdentifier: 
+  name: World 1
+  worldNumber: 1
+  levelAmount: 5
+  door: {fileID: 8843257592288616897, guid: 7977e46f790bc5e46a5e4c7db0623a3e, type: 3}

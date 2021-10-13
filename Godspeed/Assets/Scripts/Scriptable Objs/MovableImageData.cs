@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Scriptable_Objs
 {
-    [CreateAssetMenu(fileName = "New MovableImageData", menuName = "Movable Image Data", order = 51)]
+    [CreateAssetMenu(fileName = "New MovableImageData", menuName = "ScriptableObjects/Movable Image Data", order = 1)]
     public class MovableImageData : ScriptableObject
     {
         public Vector2 startPos;
