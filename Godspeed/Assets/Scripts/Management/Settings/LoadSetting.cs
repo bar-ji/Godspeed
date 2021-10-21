@@ -1,4 +1,5 @@
 ﻿using System;
+using Management.Settings;
 using UnityEngine;
 
 namespace Management
@@ -23,12 +24,12 @@ namespace Management
         {
             Setting s = new Setting {type = type, value = 0};
             var val = SettingsManager.GetSetting(s.type.ToString());
+            print(val);
             //If we already have a saved version of this setting then use the value saved.
             setting = val != 0 ? new Setting {type = type, value = val} : new Setting {type = type, value = 0};
             SettingsManager.settings[(int)setting.type] = setting;
             SettingsManager.SaveSetting(setting);
             ui.currentIndex = (uint)setting.value;
-            print("Initial Value: " + setting.value);
 
             enabled = false;
         }

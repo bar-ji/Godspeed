@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Management.Settings;
 
 namespace Management
 {

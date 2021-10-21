@@ -63,7 +63,7 @@ namespace Player
             CounterMovement();
             Gravity();
             
-            if (GameState.instance.isPaused) return;
+            if (GameManager.instance.pauseMenu.isPaused) return;
             
             if (Input.GetKey(KeyCode.Space) && isGrounded)
                 Jump();
