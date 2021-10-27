@@ -15,6 +15,7 @@ namespace Cam
         [SerializeField] private Transform orientation;
         [SerializeField] private Vector2 sensitivity;
         [SerializeField] private PostProcessProfile postProcessProfile;
+        private InputManager inputManager;
         private float xRot;
         public float yRot { get; set; }
 
@@ -27,14 +28,15 @@ namespace Cam
 
         private void Start()
         {
+            inputManager = InputManager.instance;
             SetIsLocked();
             postProcessProfile.TryGetSettings(out dof);
         }
 
         private void Update()
         {
-            mouseX = Input.GetAxisRaw("Mouse X") * sensitivity.x;
-            mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity.y;
+            mouseX = inputManager.xMouse * sensitivity.x;
+            mouseY = inputManager.yMouse * sensitivity.y;
         }
 
         private void LateUpdate()

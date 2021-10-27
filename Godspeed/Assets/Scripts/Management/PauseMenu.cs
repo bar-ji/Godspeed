@@ -25,7 +25,7 @@ public class PauseMenu : MonoBehaviour
     private float[] pauseContentsXPosOnStart = new float[3];
     private PauseState currentState;
 
-    private ActionManager eventHandler;
+    private GameManager gameManager;
 
     //Menu State
     public bool isPaused { get; private set; }
@@ -44,12 +44,11 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.pauseMenu = this;
-        
-        eventHandler = ActionManager.instance;
-        
-        eventHandler.OnPause += OnPaused;
-        eventHandler.OnUnpause += OnUnpaused;
+        gameManager = GameManager.instance;
+        gameManager.pauseMenu = this;
+
+        gameManager.OnPause += OnPaused;
+        gameManager.OnUnpause += OnUnpaused;
 
         //Initialise the state to be unpaused
         OnUnpaused();
@@ -60,9 +59,9 @@ public class PauseMenu : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
-                eventHandler.Unpause();
+                gameManager.Unpause();
             else
-                eventHandler.Pause();
+                gameManager.Pause();
         }
     }
 

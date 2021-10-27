@@ -31,12 +31,14 @@ namespace Player
 
         [Header("References")]
         [SerializeField] private Transform orientation;
+        [SerializeField] private Transform groundCheck;
                          private Rigidbody rb;
+                         private InputManager inputManager;
 
                          private MovementState state;
                          
         private bool isMoving => Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
-        private bool isGrounded => Physics.Raycast(transform.position, Vector3.down, groundDistance, groundMask);
+        private bool isGrounded => Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         
         public Vector3 previousPosition { get; private set; }
     
@@ -49,6 +51,7 @@ namespace Player
         
         private void Start()
         {
+            inputManager = InputManager.instance;
             rb = GetComponent<Rigidbody>();
         }
     
@@ -72,8 +75,8 @@ namespace Player
     
         private void Movement()
         {
-            Vector3 forwardDir = orientation.forward * force * Input.GetAxisRaw("Vertical");
-            Vector3 rightDir = orientation.right * force * Input.GetAxisRaw("Horizontal");
+            Vector3 rightDir = orientation.right * force * inputManager.xInput;
+            Vector3 forwardDir = orientation.forward * force * inputManager.yInput;
             Vector3 dir = (forwardDir + rightDir).normalized;
             Vector3 velNoY = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
@@ -124,8 +127,8 @@ namespace Player
         private void OnDrawGizmos()
         {
             Color col = isGrounded ? Color.green : Color.red;
-            var position = transform.position;
-            Debug.DrawLine(position, position + (Vector3.down * groundDistance), col);
+            Gizmos.color = col;
+            Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
         }
     }
 }

@@ -14,22 +14,38 @@ namespace Management
         [HideInInspector] public PauseMenu pauseMenu;
 
         public static string gameVersion;
+        public event Action OnPause;
+        public event Action OnUnpause;
 
         private void Awake()
         {
+            if (instance) Destroy(this);
+            instance = this;
+            
             gameVersion = Application.version;
         }
 
         private void Start()
         {
-            if (instance) Destroy(this);
-            instance = this;
-
             DOTween.Init();
 
-            actionManager.OnPause += OnPauseStateChanged;
-            actionManager.OnUnpause += OnPauseStateChanged;
+            OnPause += OnPauseStateChanged;
+            OnUnpause += OnPauseStateChanged;
         }
+        
+        public void Pause()
+        {
+            if (OnPause != null)
+                OnPause();
+        }
+        
+
+        public void Unpause()
+        {
+            if (OnUnpause != null)
+                OnUnpause();
+        }
+        
 
         private void OnPauseStateChanged()
         {

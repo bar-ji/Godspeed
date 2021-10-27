@@ -68,7 +68,7 @@ namespace World
             }
         }
 
-        protected void Incrementor()
+        private void Incrementor()
         {
             if (t >= 1)
                 isIncrementing = false;

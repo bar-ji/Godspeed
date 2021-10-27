@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private Transform camera;
+    [SerializeField] private new Transform camera;
     [SerializeField] private LayerMask layerMask;
 
     private bool isInteracting;
