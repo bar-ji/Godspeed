@@ -2717,8 +2717,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 822639310}
+  - component: {fileID: 822639311}
   m_Layer: 0
-  m_Name: Settings
+  m_Name: Settings Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2738,6 +2739,18 @@ Transform:
   m_Father: {fileID: 854449629}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822639311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822639309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234ced0c59d277b408962d54d122bc16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &840452966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,7 +2892,7 @@ GameObject:
   - component: {fileID: 854449629}
   - component: {fileID: 854449630}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2914,7 +2927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraController: {fileID: 1606429943}
-  eventHandlerSystem: {fileID: 1778077955}
+  actionManager: {fileID: 1778077955}
   pauseMenu: {fileID: 0}
 --- !u!114 &862063396
 MonoBehaviour:
@@ -6041,7 +6054,7 @@ GameObject:
   - component: {fileID: 1778077954}
   - component: {fileID: 1778077955}
   m_Layer: 0
-  m_Name: Event Handler
+  m_Name: Action Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

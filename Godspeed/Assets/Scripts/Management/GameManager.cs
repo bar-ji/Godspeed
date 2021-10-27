@@ -1,7 +1,6 @@
 ﻿using System;
 using Cam;
 using DG.Tweening;
-using Management.Settings;
 using UnityEngine;
 
 namespace Management
@@ -9,10 +8,18 @@ namespace Management
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance { get; private set; }
-        public CameraController cameraController;
-        public EventHandlerSystem eventHandlerSystem;
-        [HideInInspector] public PauseMenu pauseMenu;
         
+        public CameraController cameraController;
+        public ActionManager actionManager;
+        [HideInInspector] public PauseMenu pauseMenu;
+
+        public static string gameVersion;
+
+        private void Awake()
+        {
+            gameVersion = Application.version;
+        }
+
         private void Start()
         {
             if (instance) Destroy(this);
@@ -20,18 +27,13 @@ namespace Management
 
             DOTween.Init();
 
-            eventHandlerSystem.OnPause += OnPauseStateChanged;
-            eventHandlerSystem.OnUnpause += OnPauseStateChanged;
+            actionManager.OnPause += OnPauseStateChanged;
+            actionManager.OnUnpause += OnPauseStateChanged;
         }
 
         private void OnPauseStateChanged()
         {
             cameraController.OnPauseStateChanged();
         }
-    }
-
-    public enum GameState
-    {
-        PLAYING, PAUSED
     }
 }

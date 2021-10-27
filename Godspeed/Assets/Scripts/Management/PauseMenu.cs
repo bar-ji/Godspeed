@@ -19,14 +19,13 @@ public class PauseMenu : MonoBehaviour
 
     //Nested Pause State
     [SerializeField] private List<PauseButton> buttons;
-
     [SerializeField] private MovableImageData sidebarData;
     [SerializeField] private Transform sidebar;
-
     [SerializeField] private GameObject[] pauseContents;
+    private float[] pauseContentsXPosOnStart = new float[3];
     private PauseState currentState;
 
-    private EventHandlerSystem eventHandler;
+    private ActionManager eventHandler;
 
     //Menu State
     public bool isPaused { get; private set; }
@@ -35,13 +34,19 @@ public class PauseMenu : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(this);
+
+        for (int i = 0; i < pauseContents.Length; i++)
+        {
+            pauseContentsXPosOnStart[i] = pauseContents[i].transform.localPosition.x;
+            pauseContents[i].GetComponent<CanvasGroup>().alpha = 0;
+        }
     }
 
     void Start()
     {
         GameManager.instance.pauseMenu = this;
         
-        eventHandler = EventHandlerSystem.instance;
+        eventHandler = ActionManager.instance;
         
         eventHandler.OnPause += OnPaused;
         eventHandler.OnUnpause += OnUnpaused;
@@ -63,8 +68,8 @@ public class PauseMenu : MonoBehaviour
 
     public void OnChangeState(PauseState state)
     {
-        SetContentState(currentState, false);
         currentState = state;
+        DisableContent();
         SetContentState(currentState, true);
         SetButtonState(state);
     }
@@ -84,15 +89,32 @@ public class PauseMenu : MonoBehaviour
     {
         for (int i = 0; i < sizeof(PauseState) - 1; i++)
         {
-            if (i == (int)state)
-                pauseContents[i].SetActive(activeState);
+            if (i == (int) state)
+            {
+                //Animate Alpha and disable clicking
+                var canvasGroup = pauseContents[i].GetComponent<CanvasGroup>();
+                canvasGroup.blocksRaycasts = true;
+                canvasGroup.DOFade(1, 1f).SetEase(Ease.OutExpo);
+                
+                //Animate In
+                var pos = pauseContentsXPosOnStart[i] - 50;
+                canvasGroup.transform.DOLocalMoveX(pos, 1f).SetEase(Ease.OutExpo);
+            }
         }
     }
 
     void DisableContent()
     {
         for (int i = 0; i < sizeof(PauseState) - 1; i++)
-            pauseContents[i].SetActive(false);
+        {
+            var canvasGroup = pauseContents[i].GetComponent<CanvasGroup>();
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.DOFade(0, 1f).SetEase(Ease.OutExpo);
+            
+            //Animate Out
+            var pos = pauseContentsXPosOnStart[i] + 50;
+            canvasGroup.transform.DOLocalMoveX(pos, 1f).SetEase(Ease.OutExpo);
+        }
     }
 
     void OnPaused()

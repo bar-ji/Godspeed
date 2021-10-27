@@ -12,8 +12,8 @@ namespace UI
     {
                          private Vector2 startScale;
                          private Vector2 endScale;
-        [SerializeField] private Vector2 scaleMultiplier;
-        [SerializeField] private float scaleTime;
+        [SerializeField] private Vector2 scaleMultiplier = new Vector2(1.2f, 1.2f);
+        [SerializeField] private float scaleTime = 0.5f;
         [SerializeField] private Ease upEase;
         [SerializeField] private Ease downEase;
 

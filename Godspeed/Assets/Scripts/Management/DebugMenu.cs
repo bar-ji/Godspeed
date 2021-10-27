@@ -12,7 +12,7 @@ public class DebugMenu : MonoBehaviour
     [SerializeField] private TMP_Text FPSText;
     [SerializeField] private TMP_Text SpeedTxt;
 
-    //FIx
+    //Fix
     
     void Awake()
     {
