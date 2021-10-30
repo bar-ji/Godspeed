@@ -2,6 +2,7 @@
 using Cam;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Management
 {
@@ -9,13 +10,16 @@ namespace Management
     {
         public static GameManager instance { get; private set; }
         
-        public CameraController cameraController;
-        public ActionManager actionManager;
+        public InputManager InputManager;
         [HideInInspector] public PauseMenu pauseMenu;
-
-        public static string gameVersion;
+        
         public event Action OnPause;
         public event Action OnUnpause;
+        
+        [SerializeField] private PostProcessProfile postProcessProfile;
+        private DepthOfField dof;
+
+        private static string gameVersion;
 
         private void Awake()
         {
@@ -23,11 +27,16 @@ namespace Management
             instance = this;
             
             gameVersion = Application.version;
+            
+            postProcessProfile.TryGetSettings(out dof);
         }
 
         private void Start()
         {
             DOTween.Init();
+
+            OnPause += InputManager.instance.PauseInput;
+            OnUnpause += InputManager.instance.UnpauseInput;
 
             OnPause += OnPauseStateChanged;
             OnUnpause += OnPauseStateChanged;
@@ -46,10 +55,24 @@ namespace Management
                 OnUnpause();
         }
         
-
-        private void OnPauseStateChanged()
+        public void OnPauseStateChanged()
         {
-            cameraController.OnPauseStateChanged();
+            ManageDOF();
+        }
+        
+        private void ManageDOF()
+        {
+            if(!dof) return;
+            
+            dof.enabled.value = !dof.enabled.value;
+            dof.focalLength.value = 30;
+            if (dof.enabled.value)
+                DOTween.To(() => dof.focalLength.value, x => dof.focalLength.value = x, 60f, 1f).SetEase(Ease.OutBack);
+        }
+
+        void OnApplicationQuit()
+        {
+            dof.enabled.value = false;
         }
     }
 }

@@ -2,10 +2,8 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Settings.Data;
 
 //Handles Saving to disk
-
 namespace Settings
 {
     public static class SaveSystem

@@ -6,7 +6,7 @@ namespace Player
 {
     public enum MovementState
     {
-        Walking, Airborn
+        Walking, Airborn, Crouching, Sliding
     }
     
     public class PlayerMovement : MonoBehaviour
@@ -27,11 +27,16 @@ namespace Player
         [SerializeField] private float jumpForce;
         [SerializeField] private float gravityScale;
         [SerializeField] private LayerMask groundMask;
+
+        [Header("Sliding")] 
+        [SerializeField] private float slideForce;
+        [SerializeField] private float slideActuation;
         
 
         [Header("References")]
         [SerializeField] private Transform orientation;
         [SerializeField] private Transform groundCheck;
+        [SerializeField] private CapsuleCollider collider;
                          private Rigidbody rb;
                          private InputManager inputManager;
 
@@ -39,12 +44,17 @@ namespace Player
                          
         private bool isMoving => Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
         private bool isGrounded => Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        private bool isCrouching;
+        private bool isSliding;
+
+        public MovementState currentState { get; private set; }
         
         public Vector3 previousPosition { get; private set; }
     
         void Awake()
         {
-            currentMaxSpeed = 20;
+            currentMaxSpeed = absMaxSpeed / 2;
             accelerationOnAwake = force;
             maxSpeedOnAwake = currentMaxSpeed;
         }
@@ -58,7 +68,6 @@ namespace Player
         void Update()
         {
             state = isGrounded ? MovementState.Walking : MovementState.Airborn;
-            
             previousPosition = transform.position;
         }   
         private void FixedUpdate()
@@ -67,10 +76,18 @@ namespace Player
             Gravity();
             
             if (GameManager.instance.pauseMenu.isPaused) return;
-            
+
             if (Input.GetKey(KeyCode.Space) && isGrounded)
                 Jump();
-            Movement();
+            
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                StartCrouch();
+            
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+                StopCrouch();
+            
+            if(!isSliding)
+                Movement();
         }
     
         private void Movement()
@@ -86,9 +103,9 @@ namespace Player
                 force = accelerationOnAwake;
 
             if (velNoY.magnitude > currentMaxSpeed - 0.2f && velNoY.magnitude < absMaxSpeed && !isGrounded)
-                currentMaxSpeedT += Time.deltaTime * maxSpeedAcceleration;
+                currentMaxSpeedT += Time.fixedDeltaTime * maxSpeedAcceleration;
             else if (currentMaxSpeed > maxSpeedOnAwake)
-                currentMaxSpeedT -= Time.deltaTime * maxSpeedAcceleration * 8;
+                currentMaxSpeedT -= Time.fixedDeltaTime * maxSpeedAcceleration * 8;
 
             currentMaxSpeedT = Mathf.Clamp(currentMaxSpeedT, 0, 1);
             currentMaxSpeed = Mathf.Lerp(maxSpeedOnAwake, absMaxSpeed, currentMaxSpeedT);
@@ -104,10 +121,28 @@ namespace Player
             vel = Vector3.ClampMagnitude(vel, currentMaxSpeed);
             rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
         }
+
+        void StartCrouch()
+        {
+            isCrouching = true;
+            collider.height /= 2;
+            if (rb.velocity.magnitude >= slideActuation)
+            {
+                rb.AddForce(rb.velocity.normalized * slideForce);
+                isSliding = true;
+            }
+        }
+        
+        void StopCrouch()
+        {
+            isCrouching = false;
+            isSliding = false;
+            collider.height *= 2;
+        }
         
         private void CounterMovement()
         {
-            if (rb.velocity.magnitude > 0 && !isMoving)
+            if (rb.velocity.magnitude > 0 && !isMoving && isGrounded)
             {
                 Vector3 dir = new Vector3(-rb.velocity.x, 0, -rb.velocity.z);
                 rb.AddForce(dir * drag);
@@ -116,6 +151,7 @@ namespace Player
 
         private void Jump()
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.AddForce(Vector3.up * jumpForce);
         }
 

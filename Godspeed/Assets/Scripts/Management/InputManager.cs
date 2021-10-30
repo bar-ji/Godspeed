@@ -20,12 +20,22 @@ namespace Management
 
         void Update()
         {
-            if (!detectInput) return;
+            if (!detectInput)
+            {
+                xInput = 0;
+                yInput = 0;
+                xMouse = 0;
+                yMouse = 0;
+                return;
+            }
             
             xInput = Input.GetAxisRaw("Horizontal");
             yInput = Input.GetAxisRaw("Vertical");
             xMouse = Input.GetAxisRaw("Mouse X");
             yMouse = Input.GetAxisRaw("Mouse Y");
         }
+
+        public void PauseInput() => detectInput = false;
+        public void UnpauseInput() => detectInput = true;
     }
 }

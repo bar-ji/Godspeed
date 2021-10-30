@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778461983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.011, z: 0}
+  m_LocalPosition: {x: 0, y: -0.692, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5203545750004601701}
@@ -338,13 +338,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b0ca2734ff8834bb07cabc8c81b23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 60
-  responsiveness: 3
-  drag: 3
-  absMaxSpeed: 40
-  maxSpeedAcceleration: 0.12
+  force: 50
+  responsiveness: 4
+  drag: 6
+  absMaxSpeed: 30
+  maxSpeedAcceleration: 0.15
   groundDistance: 0.49
-  jumpForce: 750
+  jumpForce: 600
   gravityScale: 3
   groundMask:
     serializedVersion: 2
@@ -395,11 +395,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264ee8b503d25d94c83d9397de824dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 5203545749170591096}
   target: {fileID: 5203545749572423326}
   orientation: {fileID: 5203545750593974289}
-  sensitivity: {x: 100, y: 100}
-  postProcessProfile: {fileID: 11400000, guid: 21cf354487f77594b804042f3aa94e14, type: 2}
+  sensitivity: {x: 1, y: 1}
 --- !u!1 &5203545750559150881
 GameObject:
   m_ObjectHideFlags: 0
