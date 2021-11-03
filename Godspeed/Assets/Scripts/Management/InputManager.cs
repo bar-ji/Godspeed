@@ -15,8 +15,11 @@ namespace Management
         public float yInput { get; private set; }
         public float xMouse { get; private set; }
         public float yMouse { get; private set; }
+        public float crouchDown { get; set; }
+        public float crouchUp { get; set; }
 
         public bool detectInput { private get; set; } = true;
+
 
         void Update()
         {
@@ -26,6 +29,8 @@ namespace Management
                 yInput = 0;
                 xMouse = 0;
                 yMouse = 0;
+                crouchDown = 0;
+                crouchUp = 0;
                 return;
             }
             
@@ -33,6 +38,11 @@ namespace Management
             yInput = Input.GetAxisRaw("Vertical");
             xMouse = Input.GetAxisRaw("Mouse X");
             yMouse = Input.GetAxisRaw("Mouse Y");
+
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
+                crouchDown = 1;
+            if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
+                crouchUp = 1;
         }
 
         public void PauseInput() => detectInput = false;

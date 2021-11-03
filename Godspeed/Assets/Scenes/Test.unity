@@ -393,16 +393,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5203545750004601722, guid: be74b579f4228ef45a1a2451c0c4d121, type: 3}
-      propertyPath: collider
-      value: 
-      objectReference: {fileID: 2128391480}
-    - target: {fileID: 5203545750004601722, guid: be74b579f4228ef45a1a2451c0c4d121, type: 3}
-      propertyPath: slideForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5203545750004601722, guid: be74b579f4228ef45a1a2451c0c4d121, type: 3}
-      propertyPath: slideActuation
-      value: 10
+      propertyPath: maxSpeedAcceleration
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5203545750559150880, guid: be74b579f4228ef45a1a2451c0c4d121, type: 3}
       propertyPath: m_RootOrder
@@ -682,8 +674,3 @@ Transform:
   m_Father: {fileID: 53013033}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2128391480 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 5203545750004601720, guid: be74b579f4228ef45a1a2451c0c4d121, type: 3}
-  m_PrefabInstance: {fileID: 1117639734}
-  m_PrefabAsset: {fileID: 0}
