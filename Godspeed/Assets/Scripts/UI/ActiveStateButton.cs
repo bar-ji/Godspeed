@@ -10,8 +10,6 @@ namespace UI
         [SerializeField] private GameObject target;
 
         private bool isEnabled = false;
-
-        private void Awake() => isEnabled = target.activeSelf;
         public void OnClick()
         {
             if(isEnabled) DisableTarget();

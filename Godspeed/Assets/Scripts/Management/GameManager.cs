@@ -19,7 +19,7 @@ namespace Management
         [SerializeField] private PostProcessProfile postProcessProfile;
         private DepthOfField dof;
 
-        private static string gameVersion;
+        public static string gameVersion;
 
         private void Awake()
         {

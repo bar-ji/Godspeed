@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Management;
 using TMPro;
 using UnityEngine;
@@ -9,10 +7,12 @@ public class DebugMenu : MonoBehaviour
 {
     public static DebugMenu instance;
     
-    [SerializeField] private TMP_Text FPSText;
-    [SerializeField] private TMP_Text SpeedTxt;
+    public TMP_Text speedTxt;
+    public TMP_Text FPSTxt;
+    public TMP_Text VersionTxt;
 
-    //Fix
+    private float timer;
+
     
     void Awake()
     {
@@ -22,14 +22,18 @@ public class DebugMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ToggleFPSText(bool state)
+    private void Start()
     {
-        FPSText.enabled = state;
+        VersionTxt.text = "Version: " + GameManager.gameVersion;
     }
-    
-    public void ToggleSpeedText(bool state)
+
+    void Update()
     {
-        SpeedTxt.enabled = state;
+        if (timer > 0.5f)
+        {
+            FPSTxt.text = "FPS: " + (1 / Time.unscaledDeltaTime).ToString("F0");
+            timer = 0;
+        }
+        timer += Time.deltaTime;
     }
-    
 }

@@ -30,7 +30,11 @@ namespace Player
                          private Rigidbody rb;
                          private InputManager inputManager;
 
+                         private int climbJumpsRemaining = 1;
+
         private bool isGrounded => Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        private bool canClimbJump => Physics.Raycast(groundCheck.position, orientation.forward, groundDistance, groundMask);
         private bool isMoving => inputManager.xInput != 0 || inputManager.yInput != 0;
         private bool movingDiagonally => inputManager.xInput != 0 && inputManager.yInput != 0;
         private Vector3 velNoY => new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -76,7 +80,12 @@ namespace Player
                 force = accelerationOnAwake;
 
             rb.AddForce(dir * force);
-            
+
+            ClampVelocity();
+        }
+
+        void ClampVelocity()
+        {
             Vector3 vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             vel = Vector3.ClampMagnitude(vel, currentMaxSpeed);
             rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
@@ -97,9 +106,12 @@ namespace Player
 
             bool canIncreaseMaxVelocity = velNoY.magnitude > currentMaxSpeed - threshold && velNoY.magnitude < absMaxSpeed && !isGrounded && movingDiagonally;
             if (canIncreaseMaxVelocity)
-                currentMaxSpeedT += Time.fixedDeltaTime * maxSpeedAcceleration;
+                currentMaxSpeedT += Time.deltaTime * maxSpeedAcceleration;
             else if (currentMaxSpeed > maxSpeedOnAwake && !isMoving)
-                currentMaxSpeedT -= Time.fixedDeltaTime * maxSpeedAcceleration * 8;
+                currentMaxSpeedT -= Time.deltaTime * maxSpeedAcceleration * 8;
+            
+            if(rb.velocity.magnitude < currentMaxSpeed)
+                currentMaxSpeedT -= Time.deltaTime * maxSpeedAcceleration * 16;
 
             currentMaxSpeedT = Mathf.Clamp(currentMaxSpeedT, 0, 1);
             currentMaxSpeed = Mathf.Lerp(maxSpeedOnAwake, absMaxSpeed, currentMaxSpeedT);
