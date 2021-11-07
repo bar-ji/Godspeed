@@ -322,10 +322,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: c48a0f94c9c7810479bec7123ac9038a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.01, z: 0}
 --- !u!114 &5203545750004601722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,20 +341,18 @@ MonoBehaviour:
   force: 15
   responsiveness: 5
   drag: 6
-  maxSpeedAcceleration: 0.15
-  currentMaxSpeed: 10
+  maxSpeedAcceleration: 0.3
   absMaxSpeed: 25
-  groundDistance: 0.49
+  currentMaxSpeed: 7
+  airForceMultiplier: 0.4
+  groundDistance: 0.47
   jumpForce: 600
   gravityScale: 3
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  slideDragMultiplier: 0.1
-  slideActuation: 2
   orientation: {fileID: 5203545750593974289}
   groundCheck: {fileID: 778461984}
-  collider: {fileID: 5203545750004601720}
 --- !u!1 &5203545750487623264
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,7 +449,6 @@ MonoBehaviour:
   UI: {fileID: 7726601524352728749, guid: 4e2dddfdb20ed5a4682d13981aadf272, type: 3}
   playerMovement: {fileID: 5203545750004601722}
   rb: {fileID: 5203545750004601723}
-  stateText: {fileID: 0}
 --- !u!114 &5203545750559150893
 MonoBehaviour:
   m_ObjectHideFlags: 0

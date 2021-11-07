@@ -16,6 +16,9 @@ namespace Player
                          private float maxSpeedOnAwake;
                          private float accelerationOnAwake;
                          private float currentMaxSpeedT;
+                         
+        [Header("Airborn")] 
+        [SerializeField] private float airForceMultiplier;
 
         [Header("Jumping")]
         [SerializeField] private float groundDistance;
@@ -32,14 +35,7 @@ namespace Player
 
                          private int climbJumpsRemaining = 1;
 
-        private bool isGrounded => Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        private bool canClimbJump => Physics.Raycast(groundCheck.position, orientation.forward, groundDistance, groundMask);
-        private bool isMoving => inputManager.xInput != 0 || inputManager.yInput != 0;
-        private bool movingDiagonally => inputManager.xInput != 0 && inputManager.yInput != 0;
-        private Vector3 velNoY => new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-        void Awake()
+                         void Awake()
         {
             accelerationOnAwake = force;
             maxSpeedOnAwake = currentMaxSpeed;
@@ -62,7 +58,7 @@ namespace Player
             
             if (GameManager.instance.pauseMenu.isPaused) return;
 
-            if (Input.GetKey(KeyCode.Space) && isGrounded)
+            if (Input.GetKey(KeyCode.Space) && IsGrounded())
                 Jump();
             
             Movement();
@@ -74,10 +70,13 @@ namespace Player
             Vector3 forwardDir = orientation.forward * force * inputManager.yInput;
             Vector3 dir = (forwardDir + rightDir).normalized;
 
-            if (Mathf.Abs(Vector3.Angle(dir.normalized, velNoY.normalized)) > 2.0f)
+            if (Mathf.Abs(Vector3.Angle(dir.normalized, VelNoY.normalized)) > 2.0f)
                 force = accelerationOnAwake * responsiveness;
             else
                 force = accelerationOnAwake;
+
+            if (!IsGrounded())
+                dir *= airForceMultiplier;
 
             rb.AddForce(dir * force);
 
@@ -86,16 +85,15 @@ namespace Player
 
         void ClampVelocity()
         {
-            Vector3 vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            vel = Vector3.ClampMagnitude(vel, currentMaxSpeed);
+            var vel = Vector3.ClampMagnitude(VelNoY, currentMaxSpeed);
             rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
         }
 
         private void CounterMovement()
         {
-            if (rb.velocity.magnitude > 0 && !isMoving && isGrounded)
+            if (rb.velocity.magnitude > 0 && !IsMoving && IsGrounded())
             {
-                Vector3 dir = -velNoY;
+                Vector3 dir = -VelNoY;
                 rb.AddForce(dir * drag);
             }
         }
@@ -104,27 +102,25 @@ namespace Player
         {
             const float threshold = 0.2f;
 
-            bool canIncreaseMaxVelocity = velNoY.magnitude > currentMaxSpeed - threshold && velNoY.magnitude < absMaxSpeed && !isGrounded && movingDiagonally;
+            bool canIncreaseMaxVelocity = VelNoY.magnitude > currentMaxSpeed - threshold && VelNoY.magnitude < absMaxSpeed && !IsGrounded();
+            
             if (canIncreaseMaxVelocity)
-                currentMaxSpeedT += Time.deltaTime * maxSpeedAcceleration;
-            else if (currentMaxSpeed > maxSpeedOnAwake && !isMoving)
-                currentMaxSpeedT -= Time.deltaTime * maxSpeedAcceleration * 8;
+                currentMaxSpeedT += Time.deltaTime * Mathf.Pow(maxSpeedAcceleration, 2);
+            else if (currentMaxSpeed > maxSpeedOnAwake)
+                currentMaxSpeedT -= Time.deltaTime * Mathf.Pow(maxSpeedAcceleration, 2) * 8;
             
             if(rb.velocity.magnitude < currentMaxSpeed)
                 currentMaxSpeedT -= Time.deltaTime * maxSpeedAcceleration * 16;
 
             currentMaxSpeedT = Mathf.Clamp(currentMaxSpeedT, 0, 1);
+            
             currentMaxSpeed = Mathf.Lerp(maxSpeedOnAwake, absMaxSpeed, currentMaxSpeedT);
-        
-            if (currentMaxSpeed > absMaxSpeed)
-                currentMaxSpeed = absMaxSpeed;
-            if (currentMaxSpeed < maxSpeedOnAwake)
-                currentMaxSpeed = maxSpeedOnAwake;
+            currentMaxSpeed = Mathf.Clamp(currentMaxSpeed, maxSpeedOnAwake, absMaxSpeed);
         }
 
         private void Jump()
         {
-            rb.velocity = velNoY;
+            rb.velocity = VelNoY;
             rb.AddForce(Vector3.up * jumpForce);
         }
 
@@ -135,9 +131,30 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            Color col = isGrounded ? Color.green : Color.red;
+            Color col = IsGrounded() ? Color.green : Color.red;
             Gizmos.color = col;
-            Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
+            Gizmos.DrawRay(groundCheck.position, Vector3.down * groundDistance);
+        }
+        
+        
+        private bool IsMoving => inputManager.xInput != 0 || inputManager.yInput != 0;
+        private bool IsMovingDiagonally => inputManager.xInput != 0 && inputManager.yInput != 0;
+        private Vector3 VelNoY => new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+        private bool IsGrounded()
+        {
+            //Centre
+            if (Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask))
+                return true;
+            if (Physics.Raycast(groundCheck.position + Vector3.forward * groundDistance, Vector3.down, groundDistance, groundMask))
+                return true;
+            if (Physics.Raycast(groundCheck.position - Vector3.forward * groundDistance, Vector3.down, groundDistance, groundMask))
+                return true;
+            if (Physics.Raycast(groundCheck.position + Vector3.right * groundDistance, Vector3.down, groundDistance, groundMask))
+                return true;
+            if (Physics.Raycast(groundCheck.position - Vector3.right * groundDistance, Vector3.down, groundDistance, groundMask))
+                return true;
+            return false;
         }
     }
 }
