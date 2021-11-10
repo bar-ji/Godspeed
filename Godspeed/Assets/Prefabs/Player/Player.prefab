@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 5203545749860116450}
   - component: {fileID: 5203545749860116451}
   - component: {fileID: 384637303}
+  - component: {fileID: 1833039117}
   m_Layer: 0
   m_Name: CameraRen
   m_TagString: MainCamera
@@ -259,6 +260,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
   ListenerNumber: -1
+--- !u!114 &1833039117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5203545749860116452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366ea3341c6106e4a984356cf57f158f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5203545750004601721
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +357,7 @@ MonoBehaviour:
   maxSpeedAcceleration: 0.3
   absMaxSpeed: 25
   currentMaxSpeed: 7
-  airForceMultiplier: 0.4
+  airForceMultiplier: 0.5
   groundDistance: 0.47
   jumpForce: 600
   gravityScale: 3
