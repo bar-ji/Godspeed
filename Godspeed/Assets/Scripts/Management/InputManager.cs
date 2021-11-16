@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Management
 {
@@ -43,6 +44,9 @@ namespace Management
                 crouchDown = 1;
             if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
                 crouchUp = 1;
+                
+            if(Input.GetKeyDown(KeyCode.R))
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
 
         public void PauseInput() => detectInput = false;

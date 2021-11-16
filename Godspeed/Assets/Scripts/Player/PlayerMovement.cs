@@ -34,8 +34,8 @@ namespace Player
                          private InputManager inputManager;
 
                          private int climbJumpsRemaining = 1;
-
-                         void Awake()
+                         
+        void Awake()
         {
             accelerationOnAwake = force;
             maxSpeedOnAwake = currentMaxSpeed;
@@ -70,7 +70,7 @@ namespace Player
             Vector3 forwardDir = orientation.forward * force * inputManager.yInput;
             Vector3 dir = (forwardDir + rightDir).normalized;
 
-            if (Mathf.Abs(Vector3.Angle(dir.normalized, VelNoY.normalized)) > 2.0f)
+            if (Mathf.Abs(Vector3.Angle(dir.normalized, VelNoY.normalized)) > 40f)
                 force = accelerationOnAwake * responsiveness;
             else
                 force = accelerationOnAwake;

@@ -34,6 +34,9 @@ public class PauseMenu : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(this);
+        
+        gameManager = GameManager.instance;
+        gameManager.pauseMenu = this;
 
         for (int i = 0; i < pauseContents.Length; i++)
         {
@@ -44,9 +47,6 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameManager.instance;
-        gameManager.pauseMenu = this;
-
         gameManager.OnPause += OnPaused;
         gameManager.OnUnpause += OnUnpaused;
 
