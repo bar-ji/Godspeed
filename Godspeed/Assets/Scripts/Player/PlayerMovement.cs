@@ -1,3 +1,4 @@
+using System;
 using Management;
 using TMPro;
 using UnityEngine;
@@ -135,8 +136,17 @@ namespace Player
             Gizmos.color = col;
             Gizmos.DrawRay(groundCheck.position, Vector3.down * groundDistance);
         }
-        
-        
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Bounce")
+            {
+                Mushroom mushroom = other.GetComponent<Mushroom>();
+                rb.AddForce(mushroom.direction * 100, ForceMode.VelocityChange);
+                currentMaxSpeedT = absMaxSpeed;
+            }
+        }
+
         private bool IsMoving => inputManager.xInput != 0 || inputManager.yInput != 0;
         private bool IsMovingDiagonally => inputManager.xInput != 0 && inputManager.yInput != 0;
         private Vector3 VelNoY => new Vector3(rb.velocity.x, 0, rb.velocity.z);

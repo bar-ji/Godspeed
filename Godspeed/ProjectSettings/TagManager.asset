@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Bounce
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Backface
   - Player
   - Raycastable
-  - 
+  - Bounce
   - 
   - 
   - 
